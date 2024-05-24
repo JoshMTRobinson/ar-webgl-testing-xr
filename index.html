@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR App with Marker-Based and Markerless AR</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        a-scene, #markerless-ar {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="scripts/marker-based.js"></script>
     <script src="scripts/markerless.js"></script>
 </head>
-<body style="margin: 0; overflow: hidden;">
+<body>
     <h1>AR App with Marker-Based and Markerless AR</h1>
 
     <!-- Marker-Based AR -->
