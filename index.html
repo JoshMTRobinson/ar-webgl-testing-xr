@@ -4,41 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR App with Marker-Based and Markerless AR</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
-        a-scene, #markerless-ar {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <script src="scripts/marker-based.js"></script>
-    <script src="scripts/markerless.js"></script>
+    <script>
+        function startMarkerlessAR() 
+        {
+            // Create a new scene
+            const scene = new THREE.Scene();
+
+            // Create a camera
+            const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 100);
+            camera.position.set(0, 0, 0); // Set camera position
+            camera.lookAt(0, 0, -1); // Look at the origin of the scene
+
+            // Create a renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Placeholder model
+            const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const cube = new THREE.Mesh(geometry, material);
+            cube.position.set(0, 0, -0.5);
+            scene.add(cube);
+
+            // Render loop
+            function render() {
+                renderer.render(scene, camera);
+            }
+
+            renderer.setAnimationLoop(render);
+
+            console.log('Markerless AR started');
+        }
+
+        function placeModel(position) {
+            // Load the 3D model
+            const loader = new THREE.GLTFLoader();
+            loader.load(
+                'models/your-model.glb', // Path to your model file
+                function (gltf) {
+                    // Once the model is loaded, position it at the specified location
+                    const model = gltf.scene;
+                    model.position.copy(position);
+                    scene.add(model);
+                },
+                undefined,
+                function (error) {
+                    console.error('Error loading GLTF model:', error);
+                }
+            );
+        }
+        function onTouchStart(event) {
+            // Handle touch event to trigger model rendering
+            placeModel(position); // Call your function to render the model
+        }
+    </script>
 </head>
-<body>
+<body style="margin: 0; overflow: hidden;">
     <h1>AR App with Marker-Based and Markerless AR</h1>
 
-    <!-- Marker-Based AR -->
+    <!-- AR Scene -->
     <a-scene embedded arjs>
-        <a-marker preset='hiro'>
+        <!-- Define Marker -->
+        <a-marker preset="hiro">
+            <!-- Place AR Content -->
             <a-entity gltf-model="#yourModel" scale="0.5 0.5 0.5"></a-entity>
         </a-marker>
+
+        <!-- Camera -->
         <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- Markerless AR -->
-    <button onclick="startMarkerlessAR()">Start Markerless AR</button>
-    <div id="markerless-ar"></div>
-
+    <!-- Model Asset -->
     <a-assets>
         <a-asset-item id="yourModel" src="models/your-model.glb"></a-asset-item>
     </a-assets>
+
+    <!-- Touch Interaction -->
+    <script>
+        document.addEventListener('touchstart', onTouchStart, false);
+    </script>
 </body>
 </html>
