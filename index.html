@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AR App with Marker-Based and Markerless AR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -14,17 +14,29 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            // Adjust camera position
-            camera.position.set(0, 0, 5);
+            function updateCamera() {
+                if (window.innerWidth > window.innerHeight) {
+                    // Landscape orientation
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                } else {
+                    // Portrait orientation
+                    camera.aspect = window.innerHeight / window.innerWidth;
+                }
+                camera.updateProjectionMatrix();
+            }
 
-            // Placeholder model
+            window.addEventListener('resize', updateCamera);
+            updateCamera(); // Call initially to set correct aspect ratio
+
+            camera.position.set(0, 0, 0);
+            camera.lookAt(0, 0, -5); // Look at the center of the scene
+
             const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const cube = new THREE.Mesh(geometry, material);
-            cube.position.set(0, 0, -2); // Move the cube closer to the camera
+            cube.position.set(0, 0, -5);
             scene.add(cube);
 
-            // Render loop
             function render() {
                 renderer.render(scene, camera);
             }
@@ -32,7 +44,6 @@
 
             console.log('Markerless AR started');
         }
-
 
         function placeModel(position) {
             // Load the 3D model
