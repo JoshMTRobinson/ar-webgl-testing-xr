@@ -57,11 +57,17 @@ function startWebXR() {
 
     container.appendChild(renderer.domElement);
 
+    // test model
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    model = new THREE.Mesh(geometry, material);
+    scene.add(model);
+
     // Load the 3D model
-    const loader = new THREE.GLTFLoader();
-    loader.load('model/wombat-model.glb', (gltf) => {
-        model = gltf.scene;
-    });
+    // const loader = new THREE.GLTFLoader();
+    // loader.load('model/wombat-model.glb', (gltf) => {
+    //     model = gltf.scene;
+    // });
 
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', onSelect);
