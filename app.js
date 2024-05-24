@@ -57,10 +57,6 @@ function startWebXR() {
 
     container.appendChild(renderer.domElement);
 
-    // Use XRButton.createButton to create the XR button
-    // const xrButton = VRButton.createButton(renderer);
-    // document.body.appendChild(xrButton);
-
     // Load the 3D model
     const loader = new THREE.GLTFLoader();
     loader.load('model/wombat-model.glb', (gltf) => {
