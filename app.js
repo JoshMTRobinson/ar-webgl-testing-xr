@@ -12,17 +12,19 @@ function startAR() {
     if (isIOS()) {
         document.getElementById('quick-look').click();
     } else {
-        if (navigator.xr) {
-            navigator.xr.requestSession('immersive-ar', {
-                requiredFeatures: ['camera-access']
-            }).then(() => {
-                startWebXR();
-            }).catch((error) => {
-                console.error('Error requesting XR session:', error);
-            });
-        } else {
-            console.error('WebXR not supported.');
-        }
+        // Display under construction message
+        document.getElementById('index-page').innerHTML = "<h1>Under Construction for this device</h1>";
+        // if (navigator.xr) {
+        //     navigator.xr.requestSession('immersive-ar', {
+        //         requiredFeatures: ['camera-access']
+        //     }).then(() => {
+        //         startWebXR();
+        //     }).catch((error) => {
+        //         console.error('Error requesting XR session:', error);
+        //     });
+        // } else {
+        //     console.error('WebXR not supported.');
+        // }
     }
 }
 
