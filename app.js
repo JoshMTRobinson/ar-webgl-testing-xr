@@ -63,12 +63,6 @@ function startWebXR() {
     model = new THREE.Mesh(geometry, material);
     scene.add(model);
 
-    // Load the 3D model
-    // const loader = new THREE.GLTFLoader();
-    // loader.load('model/wombat-model.glb', (gltf) => {
-    //     model = gltf.scene;
-    // });
-
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', onSelect);
     scene.add(controller);
