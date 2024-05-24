@@ -6,6 +6,8 @@ let hitTestSource = null;
 let hitTestSourceRequested = false;
 let model = null;
 
+// This mess should probably be multiple scripts :P
+
 function startAR() {
     if (isIOS()) {
         document.getElementById('quick-look').click();
@@ -56,8 +58,8 @@ function startWebXR() {
     container.appendChild(renderer.domElement);
 
     // Use XRButton.createButton to create the XR button
-    const xrButton = VRButton.createButton(renderer);
-    document.body.appendChild(xrButton);
+    const xrButton = new VRButton(renderer);
+    document.body.appendChild(xrButton.domElement);
 
     // Load the 3D model
     const loader = new THREE.GLTFLoader();
