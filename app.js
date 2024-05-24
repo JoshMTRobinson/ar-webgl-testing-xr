@@ -11,10 +11,12 @@ function startAR() {
         document.getElementById('quick-look').click();
     } else {
         if (navigator.xr) {
-            navigator.xr.requestDevice().then(() => {
+            navigator.xr.requestSession('immersive-ar', {
+                requiredFeatures: ['camera-access']
+            }).then(() => {
                 startWebXR();
             }).catch((error) => {
-                console.error('Error requesting XR device:', error);
+                console.error('Error requesting XR session:', error);
             });
         } else {
             console.error('WebXR not supported.');
