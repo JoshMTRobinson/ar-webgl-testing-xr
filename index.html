@@ -3,57 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR App with Marker-Based and Markerless AR</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>Markerless AR App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body style="margin: 0; overflow: hidden;">
-    <h1>AR App with Marker-Based and Markerless AR</h1>
-
-    <!-- AR Scene -->
-    <a-scene embedded arjs>
-        <!-- Define Marker -->
-        <a-marker preset="hiro">
-            <!-- Place AR Content -->
-            <a-box position="0 0.5 0" depth="0.5" height="0.5" width="0.5" color="red"></a-box>
-        </a-marker>
-
-        <!-- Camera -->
-        <a-entity camera></a-entity>
-    </a-scene>
-
-    <script>
-        // Touch event listener to trigger model placement
-        document.addEventListener('touchstart', function(event) {
-            // Calculate the intersection point with the marker
-            const touch = event.touches[0];
-            const x = (touch.clientX / window.innerWidth) * 2 - 1;
-            const y = -(touch.clientY / window.innerHeight) * 2 + 1;
-
-            const raycaster = new THREE.Raycaster();
-            const camera = document.querySelector('a-entity[camera]').object3D;
-            raycaster.setFromCamera({ x, y }, camera);
-
-            const scene = document.querySelector('a-scene');
-            const marker = scene.querySelector('a-marker');
-            const intersects = raycaster.intersectObject(marker.object3D, true);
-
-            // If intersection is found, place the model at the intersection point
-            if (intersects.length > 0) {
-                const intersection = intersects[0];
-                const position = intersection.point;
-                placeModel(position);
-            }
-        });
-
-        // Function to place the model at a given position
-        function placeModel(position) {
-            const model = document.createElement('a-entity');
-            model.setAttribute('geometry', 'primitive: box; depth: 0.1; height: 0.1; width: 0.1');
-            model.setAttribute('material', 'color: blue');
-            model.setAttribute('position', position);
-            document.querySelector('a-scene').appendChild(model);
-        }
-    </script>
+<body>
+    <div id="index-page">
+        <h1>Welcome to the AR App</h1>
+        <button id="start-ar" onclick="startAR()">Start AR</button>
+    </div>
+    <div id="ar-view" style="display:none;">
+        <p id="ar-text">Tap to place</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
