@@ -36,7 +36,10 @@ function startWebXR() {
     document.body.appendChild(container);
 
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+
+    // Use the WebXR default camera provided by renderer.xr
+    camera = new THREE.PerspectiveCamera();
+    camera.matrixAutoUpdate = false; // Disable auto-update for camera matrix
 
     const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
     light.position.set(0.5, 1, 0.25);
@@ -46,10 +49,17 @@ function startWebXR() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;
+
+    // Set the camera reference space to be the viewer
+    renderer.xr.setReferenceSpaceType('viewer');
+
     container.appendChild(renderer.domElement);
 
-    document.body.appendChild(VRButton.createButton(renderer));
+    // Use XRButton.createButton to create the XR button
+    const xrButton = VRButton.createButton(renderer);
+    document.body.appendChild(xrButton);
 
+    // Load the 3D model
     const loader = new THREE.GLTFLoader();
     loader.load('model/wombat-model.glb', (gltf) => {
         model = gltf.scene;
@@ -69,12 +79,10 @@ function startWebXR() {
 
     window.addEventListener('resize', onWindowResize, false);
 
-    navigator.xr.requestSession('immersive-ar', {
-        requiredFeatures: ['hit-test']
-    }).then(onSessionStarted);
-
+    // Start the render loop
     renderer.setAnimationLoop(render);
 }
+
 
 function onSessionStarted(session) {
     session.addEventListener('end', onSessionEnded);
