@@ -2,92 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AR App with Marker-Based and Markerless AR</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-    <script>
-        function startMarkerlessAR() {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            function updateCamera() {
-                if (window.innerWidth > window.innerHeight) {
-                    // Landscape orientation
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                } else {
-                    // Portrait orientation
-                    camera.aspect = window.innerHeight / window.innerWidth;
-                }
-                camera.updateProjectionMatrix();
-            }
-
-            window.addEventListener('resize', updateCamera);
-            updateCamera(); // Call initially to set correct aspect ratio
-
-            camera.position.set(0, 0, 0);
-            camera.lookAt(0, 0, -5); // Look at the center of the scene
-
-            const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            const cube = new THREE.Mesh(geometry, material);
-            cube.position.set(0, 0, -5);
-            scene.add(cube);
-
-            function render() {
-                renderer.render(scene, camera);
-            }
-            renderer.setAnimationLoop(render);
-
-            console.log('Markerless AR started');
-        }
-
-        function placeModel(position) {
-            // Load the 3D model
-            const loader = new THREE.GLTFLoader();
-            loader.load(
-                'models/your-model.glb', // Path to your model file
-                function (gltf) {
-                    // Once the model is loaded, position it at the specified location
-                    const model = gltf.scene;
-                    model.position.copy(position);
-                    scene.add(model);
-                },
-                undefined,
-                function (error) {
-                    console.error('Error loading GLTF model:', error);
-                }
-            );
-        }
-        document.addEventListener('touchstart', onTouchStart, false);
-
-        function onTouchStart(event) {
-            // Calculate the touch position relative to the canvas
-            const touch = event.touches[0];
-            const x = touch.clientX / window.innerWidth * 2 - 1;
-            const y = -(touch.clientY / window.innerHeight) * 2 + 1;
-
-            // Create a raycaster and perform a raycast from the camera
-            const raycaster = new THREE.Raycaster();
-            raycaster.setFromCamera({ x, y }, camera);
-
-            // Perform intersection test with the scene objects
-            const intersects = raycaster.intersectObjects(scene.children);
-
-            // If intersection is found, place the model at the intersection point
-            if (intersects.length > 0) {
-                const intersection = intersects[0];
-                const position = new THREE.Vector3().copy(intersection.point);
-                placeModel(position);
-            }
-        }
-
-
-        document.addEventListener('touchstart', onTouchStart, false);
-    </script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <h1>AR App with Marker-Based and Markerless AR</h1>
@@ -109,9 +27,38 @@
         <a-asset-item id="yourModel" src="models/your-model.glb"></a-asset-item>
     </a-assets>
 
-    <!-- Touch Interaction -->
     <script>
-        document.addEventListener('touchstart', onTouchStart, false);
+        // Function to place the model at a given position
+        function placeModel(position) {
+            const model = document.createElement('a-entity');
+            model.setAttribute('gltf-model', '#yourModel');
+            model.setAttribute('scale', '0.5 0.5 0.5');
+            model.setAttribute('position', position);
+            document.querySelector('a-scene').appendChild(model);
+        }
+
+        // Touch event listener to trigger model placement
+        document.addEventListener('touchstart', function(event) {
+            // Calculate the intersection point with the marker
+            const touch = event.touches[0];
+            const x = (touch.clientX / window.innerWidth) * 2 - 1;
+            const y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+            const raycaster = new THREE.Raycaster();
+            const camera = document.querySelector('a-entity[camera]').object3D;
+            raycaster.setFromCamera({ x, y }, camera);
+
+            const scene = document.querySelector('a-scene');
+            const marker = scene.querySelector('a-marker');
+            const intersects = raycaster.intersectObject(marker.object3D, true);
+
+            // If intersection is found, place the model at the intersection point
+            if (intersects.length > 0) {
+                const intersection = intersects[0];
+                const position = intersection.point;
+                placeModel(position);
+            }
+        });
     </script>
 </body>
 </html>
