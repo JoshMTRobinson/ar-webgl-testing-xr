@@ -29,7 +29,7 @@ function startAR() {
     document.body.appendChild(VRButton.createButton(renderer));
 
     const loader = new THREE.GLTFLoader();
-    loader.load('model/wombat-model.glb', (gltf) => {
+    loader.load('model/your-3d-model.glb', (gltf) => {
         model = gltf.scene;
     });
 
@@ -47,7 +47,24 @@ function startAR() {
 
     window.addEventListener('resize', onWindowResize, false);
 
+    // Request the XR session
+    navigator.xr.requestSession('immersive-ar', {
+        requiredFeatures: ['hit-test']
+    }).then(onSessionStarted);
+
     renderer.setAnimationLoop(render);
+}
+
+function onSessionStarted(session) {
+    session.addEventListener('end', onSessionEnded);
+    renderer.xr.setSession(session);
+
+    hitTestSourceRequested = false;
+}
+
+function onSessionEnded() {
+    hitTestSourceRequested = false;
+    hitTestSource = null;
 }
 
 function onSelect() {
@@ -69,7 +86,7 @@ function render(timestamp, frame) {
         const referenceSpace = renderer.xr.getReferenceSpace();
         const session = renderer.xr.getSession();
 
-        if (hitTestSourceRequested === false) {
+        if (!hitTestSourceRequested) {
             session.requestReferenceSpace('viewer').then((referenceSpace) => {
                 session.requestHitTestSource({ space: referenceSpace }).then((source) => {
                     hitTestSource = source;
