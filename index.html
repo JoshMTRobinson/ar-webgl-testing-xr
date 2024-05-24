@@ -7,37 +7,32 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script>
-        function startMarkerlessAR() 
-        {
-            // Create a new scene
+        function startMarkerlessAR() {
             const scene = new THREE.Scene();
-
-            // Create a camera
-            const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 100);
-            camera.position.set(0, 0, 0); // Set camera position
-            camera.lookAt(0, 0, -1); // Look at the origin of the scene
-
-            // Create a renderer
+            const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
+
+            // Adjust camera position
+            camera.position.set(0, 0, 5);
 
             // Placeholder model
             const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const cube = new THREE.Mesh(geometry, material);
-            cube.position.set(0, 0, -0.5);
+            cube.position.set(0, 0, -2); // Move the cube closer to the camera
             scene.add(cube);
 
             // Render loop
             function render() {
                 renderer.render(scene, camera);
             }
-
             renderer.setAnimationLoop(render);
 
             console.log('Markerless AR started');
         }
+
 
         function placeModel(position) {
             // Load the 3D model
@@ -57,9 +52,22 @@
             );
         }
         function onTouchStart(event) {
-            // Handle touch event to trigger model rendering
-            placeModel(position); // Call your function to render the model
+            const touch = event.touches[0];
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2(
+                (touch.clientX / window.innerWidth) * 2 - 1,
+                -(touch.clientY / window.innerHeight) * 2 + 1
+            );
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(scene.children, true);
+            if (intersects.length > 0) {
+                const intersection = intersects[0];
+                const position = new THREE.Vector3().copy(intersection.point);
+                placeModel(position);
+            }
         }
+
+        document.addEventListener('touchstart', onTouchStart, false);
     </script>
 </head>
 <body style="margin: 0; overflow: hidden;">
