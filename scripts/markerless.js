@@ -2,10 +2,12 @@ let camera, scene, renderer;
 
 function startMarkerlessAR() {
     document.getElementById('markerless-ar').innerHTML = ''; // Clear any existing AR content
+    document.getElementById('marker-ar').style.display = 'none';
+    document.getElementById('markerless-ar').style.display = 'block';
 
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 20);
-    
+
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.xr.enabled = true;

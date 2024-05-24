@@ -11,24 +11,40 @@
     <script src="https://cdn.jsdelivr.net/npm/three/examples/jsm/webxr/ARButton.js"></script>
     <script src="scripts/marker-based.js"></script>
     <script src="scripts/markerless.js"></script>
+    <style>
+        #ar-buttons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+        }
+        #ar-buttons button {
+            margin: 5px;
+            padding: 10px;
+        }
+        #marker-ar, #markerless-ar {
+            display: none;
+        }
+    </style>
 </head>
 <body style="margin: 0; overflow: hidden;">
-    <h1>AR App with Marker-Based and Markerless AR</h1>
+    <div id="ar-buttons">
+        <button onclick="startMarkerAR()">Start Marker-Based AR</button>
+        <button onclick="startMarkerlessAR()">Start Markerless AR</button>
+    </div>
 
     <!-- Marker-Based AR -->
-    <a-scene embedded arjs>
-        <a-marker preset='hiro'>
+    <a-scene embedded arjs id="marker-ar">
+        <a-marker id="hiro-marker" preset='hiro'>
             <a-entity gltf-model="#yourModel" scale="0.5 0.5 0.5"></a-entity>
         </a-marker>
         <a-entity camera></a-entity>
+        <a-assets>
+            <a-asset-item id="yourModel" src="models/your-model.glb"></a-asset-item>
+        </a-assets>
     </a-scene>
 
     <!-- Markerless AR -->
-    <button onclick="startMarkerlessAR()">Start Markerless AR</button>
     <div id="markerless-ar"></div>
-
-    <a-assets>
-        <a-asset-item id="yourModel" src="models/your-model.glb"></a-asset-item>
-    </a-assets>
 </body>
 </html>
