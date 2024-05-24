@@ -29,7 +29,7 @@ function startAR() {
     document.body.appendChild(VRButton.createButton(renderer));
 
     const loader = new THREE.GLTFLoader();
-    loader.load('model/your-3d-model.glb', (gltf) => {
+    loader.load('model/wombat-model.glb', (gltf) => {
         model = gltf.scene;
     });
 
