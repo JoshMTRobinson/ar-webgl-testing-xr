@@ -58,8 +58,8 @@ function startWebXR() {
     container.appendChild(renderer.domElement);
 
     // Use XRButton.createButton to create the XR button
-    const xrButton = new THREE.VRButton(renderer);
-    document.body.appendChild(xrButton.domElement);
+    // const xrButton = VRButton.createButton(renderer);
+    // document.body.appendChild(xrButton);
 
     // Load the 3D model
     const loader = new THREE.GLTFLoader();
