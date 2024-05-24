@@ -7,6 +7,18 @@ let hitTestSourceRequested = false;
 let model = null;
 
 function startAR() {
+    if (isIOS()) {
+        document.getElementById('quick-look').click();
+    } else {
+        startWebXR();
+    }
+}
+
+function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function startWebXR() {
     document.getElementById('index-page').style.display = 'none';
     document.getElementById('ar-view').style.display = 'flex';
 
@@ -47,7 +59,6 @@ function startAR() {
 
     window.addEventListener('resize', onWindowResize, false);
 
-    // Request the XR session
     navigator.xr.requestSession('immersive-ar', {
         requiredFeatures: ['hit-test']
     }).then(onSessionStarted);
