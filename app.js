@@ -10,7 +10,15 @@ function startAR() {
     if (isIOS()) {
         document.getElementById('quick-look').click();
     } else {
-        startWebXR();
+        if (navigator.xr) {
+            navigator.xr.requestDevice().then(() => {
+                startWebXR();
+            }).catch((error) => {
+                console.error('Error requesting XR device:', error);
+            });
+        } else {
+            console.error('WebXR not supported.');
+        }
     }
 }
 
