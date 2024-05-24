@@ -62,21 +62,29 @@
                 }
             );
         }
+        document.addEventListener('touchstart', onTouchStart, false);
+
         function onTouchStart(event) {
+            // Calculate the touch position relative to the canvas
             const touch = event.touches[0];
+            const x = touch.clientX / window.innerWidth * 2 - 1;
+            const y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+            // Create a raycaster and perform a raycast from the camera
             const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2(
-                (touch.clientX / window.innerWidth) * 2 - 1,
-                -(touch.clientY / window.innerHeight) * 2 + 1
-            );
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children, true);
+            raycaster.setFromCamera({ x, y }, camera);
+
+            // Perform intersection test with the scene objects
+            const intersects = raycaster.intersectObjects(scene.children);
+
+            // If intersection is found, place the model at the intersection point
             if (intersects.length > 0) {
                 const intersection = intersects[0];
                 const position = new THREE.Vector3().copy(intersection.point);
                 placeModel(position);
             }
         }
+
 
         document.addEventListener('touchstart', onTouchStart, false);
     </script>
