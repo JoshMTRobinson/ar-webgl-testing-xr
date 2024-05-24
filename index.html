@@ -15,28 +15,14 @@
         <!-- Define Marker -->
         <a-marker preset="hiro">
             <!-- Place AR Content -->
-            <a-entity gltf-model="#yourModel" scale="0.5 0.5 0.5"></a-entity>
+            <a-box position="0 0.5 0" depth="0.5" height="0.5" width="0.5" color="red"></a-box>
         </a-marker>
 
         <!-- Camera -->
         <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- Model Asset -->
-    <a-assets>
-        <a-asset-item id="yourModel" src="models/your-model.glb"></a-asset-item>
-    </a-assets>
-
     <script>
-        // Function to place the model at a given position
-        function placeModel(position) {
-            const model = document.createElement('a-entity');
-            model.setAttribute('gltf-model', '#yourModel');
-            model.setAttribute('scale', '0.5 0.5 0.5');
-            model.setAttribute('position', position);
-            document.querySelector('a-scene').appendChild(model);
-        }
-
         // Touch event listener to trigger model placement
         document.addEventListener('touchstart', function(event) {
             // Calculate the intersection point with the marker
@@ -59,6 +45,15 @@
                 placeModel(position);
             }
         });
+
+        // Function to place the model at a given position
+        function placeModel(position) {
+            const model = document.createElement('a-entity');
+            model.setAttribute('geometry', 'primitive: box; depth: 0.1; height: 0.1; width: 0.1');
+            model.setAttribute('material', 'color: blue');
+            model.setAttribute('position', position);
+            document.querySelector('a-scene').appendChild(model);
+        }
     </script>
 </body>
 </html>
