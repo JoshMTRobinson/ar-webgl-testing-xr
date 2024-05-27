@@ -1,9 +1,13 @@
 document.getElementById("start-ar").addEventListener("click", startAR);
 
 function startAR() {
+    const unsupportedMessage = document.getElementById('unsupported-message');
+
     if (isIOS()) {
+        unsupportedMessage.style.display = 'none';
         document.getElementById('quick-look').click();
-    } else {
+    } else if (isAndroid()) {
+        unsupportedMessage.style.display = 'none';
         // Construct model URL
         const baseUrl = `${window.location.origin}${window.location.pathname}`;
         const modelUrl = new URL('model/wombat-model.glb', baseUrl).href;
@@ -17,9 +21,15 @@ function startAR() {
         document.body.appendChild(anchor);
         anchor.click();
         document.body.removeChild(anchor);
+    } else {
+        unsupportedMessage.style.display = 'block';
     }
 }
 
 function isIOS() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function isAndroid() {
+    return /Android/i.test(navigator.userAgent);
 }
