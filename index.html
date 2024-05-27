@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markerless AR App</title>
+    <title>AR App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,13 +17,31 @@
     <div id="ar-view" style="display:none;">
         <p id="ar-text">Tap to place</p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/three@0.126.1/examples/jsm/webxr/VRButton.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.126.1/examples/jsm/loaders/GLTFLoader.js"></script>
     <script src="app.js"></script>
     <script>
         document.getElementById("start-ar").addEventListener("click", startAR);
+
+        function startAR() {
+            if (isIOS()) {
+                document.getElementById('quick-look').click();
+            } else {
+                // Android Scene Viewer Intent
+                const modelUrl = `${window.location.origin}/model/wombat-model.glb`;
+                const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
+                const anchor = document.createElement('a');
+                anchor.setAttribute('rel', 'ar');
+                anchor.setAttribute('href', intentUrl);
+                anchor.click();
+            }
+        }
+
+        function isIOS() {
+            return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        }
     </script>
 </body>
 </html>
