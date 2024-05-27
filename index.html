@@ -31,7 +31,7 @@
             } else {
                 // Android Scene Viewer Intent
                 const modelUrl = `${window.location.origin}/model/wombat-model.glb`;
-                const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
+                const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
                 const anchor = document.createElement('a');
                 anchor.setAttribute('rel', 'ar');
                 anchor.setAttribute('href', intentUrl);
