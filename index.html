@@ -10,44 +10,11 @@
     <div id="index-page">
         <h1>Welcome to the AR App</h1>
         <button id="start-ar">Start AR</button>
-        <a id="quick-look" rel="ar" href="model/wombat-model.usdz" style="display:none;">
-            <!--<img src="quick-look-icon.png" alt="View in AR">-->
-        </a>
+        <a id="quick-look" rel="ar" href="model/wombat-model.usdz" style="display:none;"></a>
     </div>
     <div id="ar-view" style="display:none;">
         <p id="ar-text">Tap to place</p>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.126.1/examples/jsm/loaders/GLTFLoader.js"></script>
     <script src="app.js"></script>
-    <script>
-        document.getElementById("start-ar").addEventListener("click", startAR);
-
-        function startAR() {
-            if (isIOS()) {
-                document.getElementById('quick-look').click();
-            } else {
-                // Construct model URL
-                const baseUrl = `${window.location.origin}${window.location.pathname}`;
-                const modelUrl = new URL('model/wombat-model.glb', baseUrl).href;
-                console.log("Constructed model URL:", modelUrl); // Log the model URL
-
-                // Android Scene Viewer Intent
-                const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
-
-                const anchor = document.createElement('a');
-                anchor.setAttribute('href', intentUrl);
-                document.body.appendChild(anchor);
-                anchor.click();
-                document.body.removeChild(anchor);
-            }
-        }
-
-        function isIOS() {
-            return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-        }
-    </script>
 </body>
 </html>
