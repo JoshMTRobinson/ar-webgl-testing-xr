@@ -31,6 +31,7 @@
             } else {
                 // Android Scene Viewer Intent
                 const modelUrl = `${window.location.origin}/model/wombat-model.glb`;
+                console.log("Constructed model URL:", modelUrl); // Log the model URL
                 const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
                 
                 const anchor = document.createElement('a');
