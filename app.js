@@ -14,7 +14,7 @@ function startAR() {
         console.log("Constructed model URL:", modelUrl); // Log the model URL
 
         // Android Scene Viewer Intent
-        const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&ar-preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
+        const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar-preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;
 
         const anchor = document.createElement('a');
         anchor.setAttribute('href', intentUrl);
