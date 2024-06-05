@@ -10,7 +10,7 @@ function startAR() {
         unsupportedMessage.style.display = 'none';
         // Construct model URL
         const baseUrl = `${window.location.origin}${window.location.pathname}`;
-        const modelUrl = new URL('model/wombat-model.glb', baseUrl).href;
+        const modelUrl = new URL('model/model.glb', baseUrl).href;
         console.log("Constructed model URL:", modelUrl); // Log the model URL
 
         // Android Scene Viewer Intent
