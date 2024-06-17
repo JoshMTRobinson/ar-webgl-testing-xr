@@ -61,7 +61,13 @@ button:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px; 
 }
+
+#index-page > *:last-child {
+    margin-bottom: 0;
+}
+
 .loader {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #3498db; /* Blue */
