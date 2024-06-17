@@ -1,3 +1,10 @@
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        // The page was restored from the cache
+        window.location.reload();
+    }
+});
+
 document.getElementById("start-ar").addEventListener("click", startAR);
 document.getElementById("start-fullscale-ar").addEventListener("click", startFullScaleAR);
 document.getElementById('loader').style.display = 'none';
