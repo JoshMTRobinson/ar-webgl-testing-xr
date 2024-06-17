@@ -2,7 +2,8 @@ document.getElementById("start-ar").addEventListener("click", startAR);
 
 function startAR() {
     const unsupportedMessage = document.getElementById('unsupported-message');
-
+    // Show the spinner
+    document.getElementById('loader').style.display = 'block';
     if (isIOS()) {
         unsupportedMessage.style.display = 'none';
         document.getElementById('quick-look').click();
