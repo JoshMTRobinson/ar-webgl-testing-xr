@@ -15,7 +15,7 @@ function startAR() {
     document.getElementById('loader').style.display = 'block';
     if (isIOS()) {
         unsupportedMessage.style.display = 'none';
-        document.getElementById('quick-look').href = 'model/BatterySite.usdz';
+        //document.getElementById('quick-look').href = 'model/BatterySite.usdz';
         document.getElementById('quick-look').click();
     } else if (isAndroid()) {
         unsupportedMessage.style.display = 'none';
