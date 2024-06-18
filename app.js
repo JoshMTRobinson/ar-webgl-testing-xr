@@ -8,18 +8,20 @@ window.addEventListener('pageshow', function(event) {
 document.getElementById("start-ar").addEventListener("click", startAR);
 document.getElementById("start-fullscale-ar").addEventListener("click", startFullScaleAR);
 document.getElementById('loader').style.display = 'none';
+
 function startAR() {
     const unsupportedMessage = document.getElementById('unsupported-message');
     // Show the spinner
     document.getElementById('loader').style.display = 'block';
     if (isIOS()) {
         unsupportedMessage.style.display = 'none';
+        document.getElementById('quick-look').href = 'model/BatterySite.usdz';
         document.getElementById('quick-look').click();
     } else if (isAndroid()) {
         unsupportedMessage.style.display = 'none';
         // Construct model URL
         const baseUrl = `${window.location.origin}${window.location.pathname}`;
-        const modelUrl = new URL('model/model.glb', baseUrl).href;
+        const modelUrl = new URL('model/BatterySite.glb', baseUrl).href;
         console.log("Constructed model URL:", modelUrl); // Log the model URL
 
         // Android Scene Viewer Intent
@@ -41,13 +43,13 @@ function startFullScaleAR() {
     if (isIOS()) {
         unsupportedMessage.style.display = 'none';
         // Assuming the full scale model for iOS is named model_fullscale.usdz
-        document.getElementById('quick-look').href = 'model/model_fullscale.usdz';
+        document.getElementById('quick-look').href = 'model/BatterySiteFullScale.usdz';
         document.getElementById('quick-look').click();
     } else if (isAndroid()) {
         unsupportedMessage.style.display = 'none';
         // Assuming the full scale model for Android is named model_fullscale.glb
         const baseUrl = `${window.location.origin}${window.location.pathname}`;
-        const modelUrl = new URL('model/model_fullscale.glb', baseUrl).href;
+        const modelUrl = new URL('model/BatterySiteFullScale.glb', baseUrl).href;
         console.log("Constructed full scale model URL:", modelUrl);
 
         const intentUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar-preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;`;

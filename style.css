@@ -38,7 +38,6 @@ button:hover {
     background-color: #005f6b;
 }
 
-/* Add margin to the top of any button that follows another button */
 button + button {
     margin-top: 10px; 
 }
