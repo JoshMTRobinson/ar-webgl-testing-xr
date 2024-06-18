@@ -43,8 +43,8 @@ function startFullScaleAR() {
     if (isIOS()) {
         unsupportedMessage.style.display = 'none';
         // Assuming the full scale model for iOS is named model_fullscale.usdz
-        document.getElementById('quick-look').href = 'model/BatterySiteFullScale.usdz';
-        document.getElementById('quick-look').click();
+        //document.getElementById('quick-look').href = 'model/BatterySiteFullScale.usdz';
+        document.getElementById('quick-look-full').click();
     } else if (isAndroid()) {
         unsupportedMessage.style.display = 'none';
         // Assuming the full scale model for Android is named model_fullscale.glb
